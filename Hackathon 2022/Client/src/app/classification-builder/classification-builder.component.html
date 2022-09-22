@@ -1,0 +1,104 @@
+<h1>Build an Experiment</h1>
+<mat-list role="list">
+    <mat-list-item *ngIf="state === 0">
+        <mat-card>
+            <mat-label>
+                <p>
+                Start by setting some information on the experiment.
+                </p>
+            </mat-label>
+        </mat-card>
+    </mat-list-item>
+    <mat-list-item *ngIf="state === 0">
+        <mat-label>What's the experiment Name? </mat-label>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Experiment Name</mat-label>
+            <input matInput placeholder="i.e. 'Cool experiment #42'" type="text" [(ngModel)]="experimentName">
+        </mat-form-field>
+    </mat-list-item>
+    <mat-list-item *ngIf="state === 0">
+        <mat-label>Write a description that the test subjects will be see </mat-label>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Experiment Name</mat-label>
+            <input matInput placeholder="i.e. 'Cool experiment #42'" type="text" [(ngModel)]="experimentDescription">
+        </mat-form-field>
+    </mat-list-item>
+    <mat-list-item *ngIf="state === 0" class="finalItem" role="listitem">
+        <button mat-raised-button color="primary" (click)="next()">
+            Next
+        </button>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-card *ngIf="state === 1">
+            <mat-label>
+                <p>
+                Next, you should set the classification questions you want your test subjects to answer.
+                For example, you can ask for Age, Gender, Date of Birth, etc.
+                </p>
+                <p>
+                Click on the "+" button to add a new classification question.
+                </p>
+                <p>
+                For each question, set the prompt text to display and the expected answer type.
+                </p>
+                <p>
+                When done adding questions, click on the "save" button, and continue to define the experiment.
+                </p>
+            </mat-label>
+        </mat-card>
+    </mat-list-item>
+    <mat-list-item role="listitem" *ngFor="let item of classificationItems">
+        <mat-card *ngIf="state === 1">
+            <div class="promptAndClassify">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Prompt question</mat-label>
+                    <input matInput placeholder="i.e. 'what is your age?'" type="text" [(ngModel)]="item.prompt">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Expect answer of type</mat-label>
+                    <mat-select [(value)]="item.type">
+                        <mat-option *ngFor="let type of classificationTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="needsList(item)">
+                <p>Options list:</p>
+                <mat-list>
+                    <mat-list-item *ngFor="let option of item.options">
+                        <button mat-stroked-button (click)="removeOption(item.options, option)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <p>{{option}}</p>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Add item to list</mat-label>
+                            <input matInput placeholder="Full Name" type="text"
+                                (keydown.enter)="addToOptionsList(item, newOption.value)" #newOption>
+                        </mat-form-field>
+                        <button mat-stroked-button (click)="addToOptionsList(item, newOption.value)">
+                            Add
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+                <!-- <mat-checkbox [(ngModel)]="item.addOtherOption">Add other option</mat-checkbox> -->
+            </div>
+            <button class="closeButton" mat-icon-button (click)="removeClassification(item.id)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-card>
+    </mat-list-item>
+    <mat-list-item *ngIf="state === 1" class="finalItem" role="listitem">
+        <button mat-raised-button color="primary" (click)="addClassificationItem()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-raised-button color="secondary" (click)="save()">
+            <mat-icon>save</mat-icon>
+        </button>
+    </mat-list-item>
+    <mat-list-item *ngIf="state === 2" class="finalItem" role="listitem">
+         <app-narrative-builder *ngIf="shouldShowNarrativeBuilder"></app-narrative-builder>
+    </mat-list-item>
+</mat-list>

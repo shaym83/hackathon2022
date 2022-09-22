@@ -1,0 +1,30 @@
+<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+<div class="file-upload">
+   {{fileName || "No file uploaded yet."}}
+    <button mat-icon-button color="primary" class="upload-btn" (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+    </button>
+</div>
+<div class="dimensions">
+    <mat-label>Dimensions</mat-label>
+    X <input type="text" value="100" #dimX>
+    Y <input type="text" value="100" #dimY>
+</div>
+<div class="position">
+    <mat-label>Position</mat-label>
+    X <input type="text" value="0" #posX>
+    Y <input type="text" value="0" #posY>
+</div>
+<div class="Key">
+    <mat-label>Tag</mat-label>
+    <input type="text" value="'Escape' or 'Space'" #key>
+</div>
+<div class="Tag">
+    <mat-label>Tag</mat-label>
+    <input type="text" value="'Dog' or 'Pig'" #tag>
+</div>
+
+<button mat-icon-button color="primary" class="upload-btn" (click)="onAdd(dimX.value, dimY.value, posX.value, posY.value, key.value, tag.value)">
+    {{ addStatus }}
+</button>

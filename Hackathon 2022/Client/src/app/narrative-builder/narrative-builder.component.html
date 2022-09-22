@@ -1,0 +1,84 @@
+<input type="file" class="file-input" multiple (change)="onMultipleFileSelected($event)" #fileUpload1>
+<!-- <input type="file" class="file-input" (change)="onSingleFileSelected($event)" #fileUpload2> -->
+
+<form class="centered">
+    <ul>
+        <li class="row-list-item">
+            <mat-label>In the experiment, </mat-label>
+            <div class="Do">
+                <mat-form-field *ngIf="do === ''" appearance="fill">
+                    <mat-select [disabled]="!doEnabled" (selectionChange)="onDoChange($event.value)">
+                        <mat-option value="Show">Show</mat-option>
+                        <mat-option value="...">...</mat-option>
+                    </mat-select>
+                    <mat-label>Do</mat-label>
+                </mat-form-field>
+                <mat-label *ngIf="do !== ''"> {{ do }} </mat-label>
+            </div>
+
+            <div class="What">
+                <div *ngIf="what === ''">
+                    <mat-form-field *ngIf="formProgress >= 1" appearance="fill">
+                        <mat-select [disabled]="!whatChooseEnabled" (selectionChange)="onWhatChange($event.value)">
+                            <mat-option value="Random Image">Random Image</mat-option>
+                            <mat-option value="Specific">Specific Image</mat-option>
+                        </mat-select>
+                        <mat-label>What</mat-label>
+                    </mat-form-field>
+                </div>
+                <mat-label *ngIf="what !== ''">a {{ what }} </mat-label>
+            </div>
+
+            <div class="Upload">
+                <button *ngIf="formProgress == 2" class="image-selector" mat-flat-button (click)="fileUpload1.click()">from set of images</button>
+            </div>
+
+            <mat-label *ngIf="formProgress >= 3">from images {{ formProgress < 5 ? "tagged as" : "" }}</mat-label>
+            <div *ngIf="formProgress < 5" class ="Tag">
+                <mat-form-field *ngIf="formProgress >= 3" appearance="fill">
+                    <input matInput placeholder="5" type="text" (change)="onTag1Changed($event)">
+                </mat-form-field>
+            </div>
+            <div *ngIf="formProgress >= 5">
+                <mat-label>tagged as '{{ playData.frames[frameNumber].tags[0].tag }}'</mat-label>
+            </div>
+            <mat-label *ngIf="formProgress >= 4">, with second set of images </mat-label>
+            <button *ngIf="formProgress == 4" class="image-selector" mat-flat-button (click)="fileUpload1.click()">from set of images</button>
+
+            <div *ngIf="formProgress < 7" class ="Tag">
+            <mat-form-field *ngIf="formProgress >= 5" appearance="fill">
+                <mat-label *ngIf="formProgress < 7">tagged as</mat-label>
+                <input matInput placeholder="5" type="text" (change)="onTag2Changed($event)">
+            </mat-form-field>
+            </div>
+            <div *ngIf="formProgress >= 7">
+                <mat-label>tagged as '{{ playData.frames[frameNumber].tags[1].tag }}'</mat-label>
+            </div>
+        </li>
+        <li>
+            <p *ngIf="formProgress >= 6">
+                <mat-label>For tag '{{ playData.frames[frameNumber].tags[0].tag }}'', expect user to press </mat-label>
+                <button *ngIf="formProgress == 6" class="key-selector" mat-flat-button (click)="selectKey()">{{ playData.frames[frameNumber].tags[0].key || "Press to select key" }}</button>
+                <mat-label *ngIf="formProgress >= 7 ">'{{ playData.frames[frameNumber].tags[0].key }}'.</mat-label>
+            </p>
+        </li>
+        <li *ngIf="formProgress >= 7">
+            <p *ngIf="formProgress >= 7">
+                <mat-label>For tag '{{ playData.frames[frameNumber].tags[1].tag }}'', expect user to press </mat-label>
+                <button *ngIf="formProgress == 7" class="key-selector" mat-flat-button (click)="selectKey()">{{ playData.frames[frameNumber].tags[1].key || "Press to select key" }}</button>
+                <mat-label *ngIf="formProgress >= 8 ">'{{ playData.frames[frameNumber].tags[1].key }}'.</mat-label>
+            </p>
+        </li>
+        <li *ngIf="formProgress >= 8">
+            <mat-label>Repeat </mat-label>
+            <mat-form-field appearance="fill">
+                <input matInput placeholder="10" type="number" (change)="onRepeatChanged($event)">
+            </mat-form-field>
+            <mat-label>times</mat-label>
+        </li>
+        <li *ngIf="formProgress >= 9">
+            <p><mat-label>Press done when you're ready. You'll be redirected to the experiment page, which you can share with your test subjects.</mat-label></p>
+            <p><button mat-raised-button color="primary" (click)="done()">Done</button></p>
+        </li>
+    </ul>
+</form>

@@ -1,0 +1,28 @@
+<h1>Classification</h1>
+<mat-card>
+    <mat-list>
+        <mat-list-item *ngFor="let item of classificationItems">
+            <div class="wrapper">
+                <h3>{{ item.prompt }}: </h3>
+                <mat-form-field *ngIf="!isCheckboxType(item.type)">
+                    <input matInput type="{{ item.type.toLowerCase() }}" *ngIf="isInputType(item.type)"
+                        [(ngModel)]="item.value">
+                    <mat-select *ngIf="isListType(item.type)" [(value)]="item.value">
+                        <mat-option *ngFor="let option of item.options" [value]="option">
+                            {{option}}
+                        </mat-option>
+                        <!-- <mat-option *ngIf="item.addOtherOption" value="Other">Other</mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+                <div class="checkboxes" *ngIf="isCheckboxType(item.type)">
+                    <mat-checkbox *ngFor="let option of item.options; let i = index" [(ngModel)]="item.value[i]">{{
+                        option }}</mat-checkbox>
+                    <!-- <mat-checkbox *ngIf="item.addOtherOption" value="Other">Other
+                    </mat-checkbox> -->
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+        </mat-list-item>
+    </mat-list>
+    <button mat-button (click)="done()">Done</button>
+</mat-card>

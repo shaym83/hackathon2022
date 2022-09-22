@@ -1,0 +1,31 @@
+<input type="file" class="file-input" multiple (change)="onFileSelected($event)" #fileUpload>
+
+<form>
+    <h1>
+        <mat-label>Display a random image from collection of images</mat-label>
+    </h1>
+    <div class="file-upload">
+        {{ imagesSelected ? "" : "No files selected yet."}}
+            <button mat-icon-button color="primary" class="upload-btn" (click)="fileUpload.click()">
+                <mat-icon>attach_file</mat-icon>
+            </button>
+        </div>
+    <mat-form-field appearance="fill">
+        <mat-label>Tag: </mat-label>
+        <input matInput placeholder="'Dog' or 'Pig'" type="text" #tag>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Assign key: </mat-label>
+        <mat-select [(value)]="selectedKey">
+            <mat-option value="Escape">Escape</mat-option>
+            <mat-option value="Space">Space</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>How many images to show: </mat-label>
+        <input matInput placeholder="1" type="number" #count>
+    </mat-form-field>
+    <button disabled="{{!imagesSelected}}" mat-icon-button color="primary" class="upload-btn" (click)="onAdd(tag.value, count.value)">
+        {{ addStatus }}
+    </button>
+</form>

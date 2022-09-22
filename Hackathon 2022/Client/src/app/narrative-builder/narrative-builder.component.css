@@ -1,0 +1,38 @@
+.file-input {
+    display: none;
+  }
+
+form {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: x-large;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.row-list-item {
+  display: flex;
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: x-large;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.image-selector {
+  font-size: x-large;
+  color: #7800fb;
+}
+
+.key-selector {
+  font-size: x-large;
+  color: #ff8800;
+}

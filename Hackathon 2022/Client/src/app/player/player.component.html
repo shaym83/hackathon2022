@@ -1,0 +1,12 @@
+<div *ngIf="isPlaying()">
+    <h1>{{ experimentName }} {{ numberInFrame + 1 }} / {{ totalInFrame }}</h1>
+    <h3>
+        {{ experimentDescription }}
+    </h3>
+    <p *ngFor="let t of this.tags">
+        <mat-label>If the image should be tagged '{{t.tag}}'', press '{{t.key}}'</mat-label>
+    </p>
+</div>
+<p *ngIf="!isPlaying()">Done!</p>
+
+<template #content></template>
